@@ -8,16 +8,20 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
 @Slf4j
 public class PyroscopeConfig {
+
+    private final List<String> supportedOS = List.of("linux", "mac", "darwin");
 
     @PostConstruct
     public void init() {
 
         String osName = System.getProperty("os.name", "").toLowerCase();
 
-        boolean isSupported = osName.contains("linux") || osName.contains("mac") || osName.contains("darwin");
+        boolean isSupported = supportedOS.contains(osName);
 
         if (!isSupported) {
             log.info("Pyroscope profiling unabled: Unsupported OS {}", osName);
